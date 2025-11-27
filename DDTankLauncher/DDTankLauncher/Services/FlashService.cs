@@ -115,11 +115,12 @@ public class FlashService
         // Temel argüman - SWF dosyası
         string args = $"\"{swfPath}\"";
         
-        // Ruffle için ek parametreler eklenebilir
+        // Ruffle için ek parametreler - temel kullanım, tüm Ruffle sürümleriyle uyumlu
+        // Not: Ek parametreler gerekirse SettingsService üzerinden yapılandırılabilir
         if (playerType == FlashPlayerType.Ruffle)
         {
-            // Ruffle'a sunucu bilgilerini flashvars olarak geçirebiliriz
-            args += $" --player-runtime=air --spoof-url=\"http://{serverIP}:{serverPort}/\"";
+            // Sadece SWF dosyası argümanı kullan - en uyumlu yaklaşım
+            // Ruffle otomatik olarak doğru runtime'ı seçer
         }
         
         return args;
@@ -187,9 +188,18 @@ public class FlashService
                     players.AddRange(files);
                 }
             }
-            catch
+            catch (UnauthorizedAccessException)
             {
-                // Erişim hatalarını yoksay
+                // Bu dizine erişim izni yok - sessizce atla
+            }
+            catch (DirectoryNotFoundException)
+            {
+                // Dizin bulunamadı - sessizce atla
+            }
+            catch (Exception ex)
+            {
+                // Diğer hatalar için debug log
+                System.Diagnostics.Debug.WriteLine($"[FlashService] Flash Player aranırken hata ({basePath}): {ex.Message}");
             }
         }
 

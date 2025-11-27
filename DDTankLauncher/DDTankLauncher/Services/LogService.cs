@@ -44,9 +44,10 @@ public static class LogService
                 }
                 _isInitialized = true;
             }
-            catch
+            catch (Exception ex)
             {
-                // Log dizini oluşturulamazsa sessizce devam et
+                // Log dizini oluşturulamazsa Debug output'a yaz
+                System.Diagnostics.Debug.WriteLine($"[LogService] Log dizini oluşturulamadı: {ex.Message}");
             }
         }
     }
@@ -74,9 +75,10 @@ public static class LogService
                 File.AppendAllText(_logFilePath, logMessage + Environment.NewLine);
             }
         }
-        catch
+        catch (Exception ex)
         {
-            // Dosya yazma hatası - sessizce devam et
+            // Dosya yazma hatası - Debug output'a yaz
+            System.Diagnostics.Debug.WriteLine($"[LogService] Log dosyasına yazılamadı: {ex.Message}");
         }
     }
 
