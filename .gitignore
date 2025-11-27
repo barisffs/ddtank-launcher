@@ -1,0 +1,48 @@
+# .NET Build outputs
+bin/
+obj/
+[Oo]ut/
+[Bb]uild/
+
+# Visual Studio
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Visual Studio Code
+.vscode/
+
+# Rider
+.idea/
+
+# NuGet
+*.nupkg
+packages/
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Application specific
+*.log
+logs/
+
+# User settings
+settings.json
+
+# Temporary files
+*.tmp
+*.temp
+~$*
