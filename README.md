@@ -58,6 +58,33 @@ dotnet run --project DDTankLauncher
 2. ZIP dosyasını çıkarın
 3. `DDTankLauncher.exe` dosyasını çalıştırın
 
+### 📥 Download .exe
+
+Derlenmiş Windows x64 çalıştırılabilir dosyasını aşağıdaki yöntemlerle edinebilirsiniz:
+
+#### GitHub Releases'den İndirme
+
+1. [Releases](https://github.com/barisffs/ddtank-launcher/releases) sayfasına gidin
+2. En son sürümü bulun
+3. `DDTankLauncher-win-x64.exe` dosyasını indirin
+4. İndirilen dosyayı çalıştırın (.NET kurulumu gerekmez, self-contained)
+
+#### GitHub Actions Artifacts'den İndirme
+
+1. [Actions](https://github.com/barisffs/ddtank-launcher/actions) sekmesine gidin
+2. "Build and Publish Windows Exe" workflow'unu seçin
+3. Başarılı bir çalışmaya tıklayın
+4. "Artifacts" bölümünden `DDTankLauncher-win-x64` dosyasını indirin
+
+#### Workflow'u Manuel Tetikleme
+
+1. [Actions](https://github.com/barisffs/ddtank-launcher/actions) sekmesine gidin
+2. Sol taraftan "Build and Publish Windows Exe" workflow'unu seçin
+3. "Run workflow" butonuna tıklayın ve `main` branch'ini seçin
+4. Build tamamlandığında artifact'i indirin
+
+> **Not:** Self-contained exe dosyası .NET Runtime gerektirmez ve doğrudan çalıştırılabilir.
+
 ## 🎯 Kullanım Rehberi
 
 ### İlk Kurulum

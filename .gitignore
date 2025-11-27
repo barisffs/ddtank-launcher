@@ -3,6 +3,7 @@ bin/
 obj/
 [Oo]ut/
 [Bb]uild/
+publish/
 
 # Visual Studio
 .vs/

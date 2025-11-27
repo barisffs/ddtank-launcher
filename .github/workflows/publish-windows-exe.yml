@@ -1,0 +1,64 @@
+name: Build and Publish Windows Exe
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 8 SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.x'
+
+      - name: Restore dependencies
+        run: dotnet restore DDTankLauncher/DDTankLauncher/DDTankLauncher.csproj
+
+      - name: Build and Publish
+        run: dotnet publish DDTankLauncher/DDTankLauncher/DDTankLauncher.csproj -c Release -r win-x64 --self-contained true /p:PublishSingleFile=true /p:IncludeAllContentForSelfExtract=true -o ./publish
+
+      - name: Rename artifact
+        run: |
+          if (Test-Path "./publish/DDTankLauncher.exe") {
+            Move-Item "./publish/DDTankLauncher.exe" "./publish/DDTankLauncher-win-x64.exe"
+            if (-not (Test-Path "./publish/DDTankLauncher-win-x64.exe")) {
+              Write-Error "Failed to rename artifact"
+              exit 1
+            }
+          } else {
+            Write-Error "DDTankLauncher.exe not found in publish folder"
+            exit 1
+          }
+        shell: pwsh
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: DDTankLauncher-win-x64
+          path: ./publish/DDTankLauncher-win-x64.exe
+
+      - name: Create GitHub Release
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ github.run_number }}
+          name: Release v${{ github.run_number }}
+          body: |
+            Automated release from commit ${{ github.sha }}
+            
+            ## Download
+            Download the `DDTankLauncher-win-x64.exe` file below to run the launcher on Windows x64.
+          files: ./publish/DDTankLauncher-win-x64.exe
+          draft: false
+          prerelease: false
